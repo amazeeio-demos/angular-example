@@ -1,0 +1,74 @@
+version: '3.8'
+
+# Machine name for your project
+x-lagoon-project:
+  # Lagoon project name (leave `&lagoon-project` when you edit this)
+  &lagoon-project angular-example
+
+# Tells Lagoon what to mount into containers
+x-volumes:
+  &default-volumes
+    # Define all volumes you would like to have real-time mounted into the docker containers
+    volumes:
+      - .:/app:delegated # :delegated sets host (i.e container) to 'read-only'
+
+# Environment specific variables
+x-environmemt:
+  &default-environment
+    LAGOON_PROJECT: *lagoon-project
+    # Route that should be used locally, if you are using pygmy, this route *must* end with .docker.amazee.io
+    LAGOON_ROUTE: &default-url http://${LAGOON_PROJECT:-angular-example}.docker.amazee.io
+    # Uncomment if you like to have the system behave like in production
+    #LAGOON_ENVIRONMENT_TYPE: production
+
+x-user:
+  &default-user
+    # The default user under which the containers should run. Change this if you are on linux and run with another user than id `1000`
+    user: '1000'
+
+# Services are essentailly the Docker containers we want to run
+services:
+  cli:
+    build:
+      context: .
+      dockerfile: lagoon/cli.dockerfile
+    image: &cli-image ${LAGOON_PROJECT:-angular-example}-cli # this image will be reused as `CLI_IMAGE` in subsequent Docker builds
+    labels:
+      # Lagoon learns from setting the lagoon.type to the service you want to use for setting up the appropriate ports and k8 configuration to run.
+      # See here for all the service types - https://docs.lagoon.sh/using-lagoon-advanced/service-types
+      lagoon.type: cli # We are informing Lagoon here we are running a cli image
+    ## Local only from here
+    tty: true
+    << : *default-volumes # loads the defined volumes from the top
+    volumes_from: ### Mount the ssh-agent from local pygmy ssh-agent. Automatically removed in CI.
+      - container:amazeeio-ssh-agent ### Local overrides to mount host SSH keys. Automatically removed in CI.
+    networks:
+      - amazeeio-network
+      - default
+
+  nginx:
+    build:  
+      context: .
+      dockerfile: lagoon/nginx.dockerfile
+      args:
+        CLI_IMAGE: *cli-image # Inject the name of the cli image
+    labels:
+      lagoon.type: nginx # nginx container, exposes port 8080
+    # Local only
+    << : *default-user # uses the defined user from top
+    ports:
+      - "8080"
+    environment:
+      << : *default-environment # loads the defined environment variables from the top
+      # LAGOON_LOCALDEV_URL: nginx.angular-example.docker.amazee.io
+      LAGOON_LOCALDEV_HTTP_PORT: 8080
+    depends_on:
+      - cli
+    networks:
+      - amazeeio-network
+      - default
+
+# Setup up amazeeio-network
+networks:
+  amazeeio-network:
+    external: true
