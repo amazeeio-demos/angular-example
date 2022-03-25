@@ -3,7 +3,7 @@ version: '3.8'
 # Machine name for your project
 x-lagoon-project:
   # Lagoon project name (leave `&lagoon-project` when you edit this)
-  &lagoon-project angular-example
+  &lagoon-project demo-amazeeio-angular
 
 # Tells Lagoon what to mount into containers
 x-volumes:
