@@ -53,7 +53,7 @@ services:
       args:
         CLI_IMAGE: *cli-image # Inject the name of the cli image
     labels:
-      lagoon.type: nginx # nginx container, exposes port 8080
+      lagoon.type: none # nginx container, exposes port 8080
     # Local only
     << : *default-user # uses the defined user from top
     ports:
@@ -79,7 +79,7 @@ services:
       args:
         CLI_IMAGE: *cli-image # Inject the name of the cli image
     labels:
-      lagoon.type: node
+      lagoon.type: none
     depends_on:
       - cli
     volumes:
