@@ -79,8 +79,7 @@ services:
       args:
         CLI_IMAGE: *cli-image # Inject the name of the cli image
     labels:
-      lagoon.type: node-persistent
-      lagoon.persistent: /storage/
+      lagoon.type: node
     depends_on:
       - cli
     volumes:
@@ -100,8 +99,7 @@ services:
       args:
         CLI_IMAGE: *cli-image # Inject the name of the cli image
     labels:
-      lagoon.type: node-persistent
-      lagoon.persistent: /storage/
+      lagoon.type: node
     depends_on:
       - cli
     volumes:
