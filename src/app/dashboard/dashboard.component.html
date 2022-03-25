@@ -1,0 +1,91 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">    
+        <h3 class="text-lg leading-6 font-medium text-gray-900">State of New York Health Data</h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">Sourced from 
+            <a class="text-blue-600 visited:text-purple-600" href="https://dev.socrata.com/foundry/data.cityofnewyork.us/rc75-m7u3">
+                https://dev.socrata.com/foundry/data.cityofnewyork.us/rc75-m7u3
+            </a>
+        </p>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">{{ todayStats.date_of_interest }}</p>
+        <div class="flex items-stretch mt-4">
+            <div *ngIf="!loadingData">
+                <button
+                    class="bg-gray-800 hover:bg-gray-500 text-white py-1 px-1 border border-blue-700 rounded mr-2"
+                    (click)="onPrev()">
+                    Prev
+                </button>
+            </div>
+
+            <div *ngIf="!loadingData">
+                <button
+                class="bg-gray-800 hover:bg-gray-500 text-white py-1 px-1 border border-blue-700 rounded"
+                (click)="onNext()">
+                    Next
+                </button>
+            </div>
+
+            <div *ngIf="loadingData" class="float-right w-12">
+                <img src="/assets/spinner.gif" />
+            </div>
+        </div>
+    </div>
+    <div class="border-t border-gray-200">
+        <dl>
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Case count</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.case_count }}</dd>
+            </div>
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Porbable case count</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.probable_case_count }}</dd>
+            </div>
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Hospitalized count</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.hospitalized_count }}</dd>
+            </div>
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Death count</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.death_count }}</dd>
+            </div>
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Death count probable</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.death_count_probable }}</dd>
+            </div>
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Case count 7 day average</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.case_count_7day_avg }}</dd>
+            </div>
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">All case count 7 day average</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.all_case_count_7day_avg }}
+                </dd>
+            </div>
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Hospitalized count 7 day average</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.hosp_count_7day_avg }}</dd>
+            </div>
+
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Death count 7 day average</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.death_count_7day_avg }}</dd>
+            </div>
+
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">All death count 7 day average</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ todayStats.all_death_count_7day_avg }}
+                </dd>
+            </div>
+
+        </dl>
+    </div>
+</div>

@@ -67,6 +67,49 @@ services:
     networks:
       - amazeeio-network
       - default
+  
+  # SERVICE: Gatsby node container for running node development
+  node:
+    networks:
+      - amazeeio-network
+      - default
+    build:
+      context: ./
+      dockerfile: lagoon/node.dockerfile
+      args:
+        CLI_IMAGE: *cli-image # Inject the name of the cli image
+    labels:
+      lagoon.type: node-persistent
+      lagoon.persistent: /storage/
+    depends_on:
+      - cli
+    volumes:
+      - ./:/app:delegated
+    environment:
+      - LAGOON_LOCALDEV_HTTP_PORT=3000
+      - LAGOON_ROUTE=http://angular-example-node.docker.amazee.io
+      - LAGOON_ENVIRONMENT_TYPE
+
+  express:
+    networks:
+      - amazeeio-network
+      - default
+    build:
+      context: ./
+      dockerfile: lagoon/express.dockerfile
+      args:
+        CLI_IMAGE: *cli-image # Inject the name of the cli image
+    labels:
+      lagoon.type: node-persistent
+      lagoon.persistent: /storage/
+    depends_on:
+      - cli
+    volumes:
+      - ./:/app:delegated
+    environment:
+      - LAGOON_LOCALDEV_HTTP_PORT=3000
+      - LAGOON_ROUTE=http://angular-example-express.docker.amazee.io
+      - LAGOON_ENVIRONMENT_TYPE
 
 # Setup up amazeeio-network
 networks:
