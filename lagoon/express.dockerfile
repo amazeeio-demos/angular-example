@@ -7,5 +7,7 @@ COPY --from=cli /app /app
 
 RUN npm install -g @angular/cli
 
+RUN fix-permissions /app/.angular
+
 EXPOSE 3000
 CMD ["node","server.js"]

@@ -7,6 +7,7 @@ COPY --from=cli /app /app
 
 RUN npm install -g @angular/cli
 
+RUN fix-permissions /app/.angular
+
 EXPOSE 3000
-# CMD ["ng","serve","--port","3000","--host","0.0.0.0","--disable-host-check"]
 CMD ["ng","build","--watch"]

@@ -14,4 +14,6 @@ RUN npm install -g @angular/cli
 RUN npm install
 RUN npm run build --prod
 
+RUN fix-permissions /app/.angular
+
 CMD ["/bin/docker-sleep"]
