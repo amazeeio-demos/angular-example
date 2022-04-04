@@ -11,18 +11,26 @@
         <div class="flex items-stretch mt-4">
             <div *ngIf="!loadingData">
                 <button
-                    class="bg-gray-800 hover:bg-gray-500 text-white py-1 px-1 border border-blue-700 rounded mr-2"
-                    (click)="onPrev()">
-                    Prev
+                    class="bg-gray-800 hover:bg-gray-500 text-white py-1 px-1 border border-blue-700 rounded mr-2 mb-4"
+                    (click)="onGo(theYear.value, theMonth.value, theDay.value)">
+                    GO!
                 </button>
-            </div>
+                
+                <div class="mb-4">
+                    <label for="year" class="block text-sm font-medium text-gray-700">Year</label>
+                    <input name="year" id="year" [value]="requestedYear" type="text" class="mt-1 border-2 border-black-500 block w-full rounded-md" #theYear  />
+                </div>
+                
+                <div class="mb-4">
+                    <label for="month" class="block text-sm font-medium text-gray-700">Month</label>
+                    <input name="month" id="month" [value]="requestedMonth" type="text" class="mt-1 border-2 border-black-500 block w-full rounded-md" #theMonth /> 
+                </div>
 
-            <div *ngIf="!loadingData">
-                <button
-                class="bg-gray-800 hover:bg-gray-500 text-white py-1 px-1 border border-blue-700 rounded"
-                (click)="onNext()">
-                    Next
-                </button>
+                <div class="mb-4">
+                    <label for="day" class="block text-sm font-medium text-gray-700">Day</label>
+                    <input name="day" id="day" [value]="requestedDay" type="text" class="mt-1 border-2 border-black-500 block w-full rounded-md" #theDay />                
+                </div>
+    
             </div>
 
             <div *ngIf="loadingData" class="float-right w-12">
